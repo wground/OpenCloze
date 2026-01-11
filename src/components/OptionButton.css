@@ -1,0 +1,112 @@
+/* OptionButton Component Styles */
+
+.option-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  border: 2px solid var(--border-default);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: normal;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.option-button:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-medium);
+  transform: translateY(-2px);
+}
+
+.option-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.option-text {
+  flex: 1;
+  font-size: 1.1rem;
+}
+
+.option-shortcut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: 0.5rem;
+  background-color: var(--bg-dark);
+  color: var(--text-tertiary);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+/* State: Correct */
+.option-correct {
+  background-color: var(--correct-bg);
+  border-color: var(--correct-text);
+  color: var(--correct-text);
+  font-weight: bold;
+}
+
+.option-correct:hover {
+  transform: none;
+  cursor: default;
+}
+
+/* State: Incorrect */
+.option-incorrect {
+  background-color: var(--incorrect-bg);
+  border-color: var(--incorrect-text);
+  color: var(--incorrect-text);
+  font-weight: bold;
+}
+
+.option-incorrect:hover {
+  transform: none;
+  cursor: default;
+}
+
+/* State: Disabled */
+.option-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.option-disabled:hover {
+  transform: none;
+  border-color: var(--border-default);
+  background-color: var(--bg-light);
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.option-button {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .option-button {
+    padding: 0.875rem 1rem;
+  }
+
+  .option-text {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,131 @@
+/* ClozeCard Component Styles */
+
+.cloze-card {
+  background-color: var(--bg-medium);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Sentence Display */
+.sentence-display {
+  font-size: 1.25rem;
+  line-height: 2;
+  margin-bottom: 2rem;
+  text-align: left;
+  padding: 1.5rem;
+  background-color: var(--bg-dark);
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+}
+
+.clickable-word {
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.clickable-word:hover {
+  color: var(--accent-primary);
+  background-color: rgba(201, 162, 39, 0.1);
+}
+
+/* Blanks */
+.blank {
+  display: inline-block;
+  padding: 0 0.5rem;
+  margin: 0 0.25rem;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.blank-current {
+  color: var(--accent-primary);
+  background-color: rgba(201, 162, 39, 0.15);
+  border-bottom: 2px solid var(--accent-primary);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.blank-filled {
+  color: var(--correct-text);
+  background-color: var(--correct-bg);
+  border-bottom: 2px solid var(--correct-text);
+}
+
+.blank-upcoming {
+  color: var(--text-tertiary);
+  opacity: 0.5;
+  font-style: italic;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Options Container */
+.options-container {
+  margin-bottom: 1rem;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Next Button */
+.next-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-darkest);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.next-button:hover {
+  background-color: var(--accent-secondary);
+  transform: translateY(-1px);
+}
+
+.next-button:active {
+  transform: translateY(0);
+}
+
+/* Blank Indicator */
+.blank-indicator {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .cloze-card {
+    padding: 1.5rem;
+  }
+
+  .sentence-display {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}

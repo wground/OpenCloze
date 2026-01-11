@@ -1,0 +1,300 @@
+/* Dark Academia Theme */
+
+:root {
+  /* Backgrounds */
+  --bg-darkest: #1a1915;
+  --bg-dark: #252320;
+  --bg-medium: #2d2a26;
+  --bg-light: #363330;
+
+  /* Text */
+  --text-primary: #e8e4dc;
+  --text-secondary: #b8b2a6;
+  --text-tertiary: #7a756b;
+
+  /* Accent */
+  --accent-primary: #c9a227;
+  --accent-secondary: #8b7355;
+
+  /* Feedback - Correct */
+  --correct-text: #5b8a72;
+  --correct-bg: #2a3d32;
+
+  /* Feedback - Incorrect */
+  --incorrect-text: #98544e;
+  --incorrect-bg: #3d2a2a;
+
+  /* Borders */
+  --border-default: #3d3a35;
+  --border-focus: #c9a227;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  line-height: 1.7;
+  background-color: var(--bg-darkest);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Links */
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Inputs and Buttons */
+input,
+textarea,
+button {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+input,
+textarea {
+  background-color: var(--bg-medium);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+button {
+  background-color: var(--accent-primary);
+  color: var(--bg-darkest);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:active {
+  opacity: 0.8;
+}
+
+/* Feedback States */
+.correct {
+  color: var(--correct-text);
+  background-color: var(--correct-bg);
+}
+
+.incorrect {
+  color: var(--incorrect-text);
+  background-color: var(--incorrect-bg);
+}
+
+/* Utility Classes */
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+/* Text Selection */
+::selection {
+  background-color: var(--accent-primary);
+  color: var(--bg-darkest);
+}
+
+::-moz-selection {
+  background-color: var(--accent-primary);
+  color: var(--bg-darkest);
+}
+
+/* Focus Outlines */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Cards */
+.card {
+  background-color: var(--bg-medium);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: border-color 0.3s;
+}
+
+.card:hover {
+  border-color: var(--accent-secondary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fade-in for page loads */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Responsive Layout */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+
+  /* Stack options grid on mobile - defined in OptionButton.css */
+  /* Bottom sheet for panels - defined in DefinitionPanel.css */
+}

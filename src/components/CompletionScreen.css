@@ -1,0 +1,136 @@
+/* CompletionScreen Component Styles */
+
+.completion-screen {
+  width: 100%;
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 1rem;
+}
+
+.completion-card {
+  background-color: var(--bg-medium);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.completion-title {
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: var(--accent-primary);
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.completion-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color: var(--bg-dark);
+  border-radius: 6px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent-primary);
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-divider {
+  color: var(--text-tertiary);
+  font-size: 2rem;
+}
+
+.completion-message {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.completion-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.completion-button {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.retry-button {
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+
+.retry-button:hover {
+  background-color: var(--bg-dark);
+  border-color: var(--accent-secondary);
+}
+
+.new-button {
+  background-color: var(--accent-primary);
+  color: var(--bg-darkest);
+  font-weight: bold;
+}
+
+.new-button:hover {
+  background-color: var(--accent-secondary);
+}
+
+.completion-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .completion-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .completion-title {
+    font-size: 2rem;
+  }
+
+  .completion-stats {
+    gap: 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .completion-actions {
+    flex-direction: column;
+  }
+
+  .completion-button {
+    width: 100%;
+  }
+}

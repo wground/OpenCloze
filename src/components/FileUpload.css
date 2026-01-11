@@ -1,0 +1,143 @@
+/* FileUpload Component Styles */
+
+.file-upload-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.file-upload-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.file-upload-header h1 {
+  font-size: 3rem;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+}
+
+.file-upload-header .subtitle {
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* Upload Zone */
+.file-upload-zone {
+  border: 2px dashed var(--border-default);
+  border-radius: 8px;
+  background-color: var(--bg-medium);
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.file-upload-zone:hover {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-light);
+}
+
+.file-upload-zone.dragging {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-light);
+  border-style: solid;
+}
+
+.upload-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+.file-upload-zone:hover .upload-icon {
+  transform: scale(1.1);
+}
+
+.upload-text {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.upload-subtext {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.upload-format {
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+/* Error Message */
+.upload-error {
+  background-color: var(--incorrect-bg);
+  color: var(--incorrect-text);
+  padding: 1rem;
+  border-radius: 4px;
+  border-left: 4px solid var(--incorrect-text);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Info Section */
+.upload-info {
+  background-color: var(--bg-dark);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+}
+
+.upload-info h3 {
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: var(--accent-primary);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.language-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.language-tag {
+  display: inline-block;
+  background-color: var(--bg-medium);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-default);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .file-upload-container {
+    padding: 2rem 1rem;
+  }
+
+  .file-upload-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .file-upload-zone {
+    padding: 2rem 1rem;
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+  }
+}

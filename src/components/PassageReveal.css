@@ -1,0 +1,50 @@
+/* PassageReveal Component Styles */
+
+.passage-reveal {
+  background-color: var(--bg-medium);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.sentence {
+  display: inline;
+  transition: opacity 0.3s ease;
+}
+
+.sentence-revealed {
+  color: var(--text-primary);
+  animation: fadeIn 0.5s ease-in;
+}
+
+.sentence-hidden {
+  color: var(--text-tertiary);
+  opacity: 0.4;
+  font-style: italic;
+}
+
+.paragraph-break {
+  display: block;
+  height: 1em;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .passage-reveal {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+}
