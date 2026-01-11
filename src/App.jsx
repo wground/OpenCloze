@@ -22,7 +22,7 @@ function App() {
         // Fetch each language file
         for (const code of languageCodes) {
           try {
-            const response = await fetch(`/languages/${code}.md`);
+            const response = await fetch(`${import.meta.env.BASE_URL}languages/${code}.md`);
             if (response.ok) {
               const text = await response.text();
               const config = parseLanguageConfig(text);
