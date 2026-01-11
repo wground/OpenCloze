@@ -129,9 +129,12 @@ export default function ClozeCard({
               blankClass += ' blank-upcoming';
             }
 
+            // Show the word only for past blanks, hide current and upcoming blanks
+            const displayText = isPast ? segment.word : '_____';
+
             return (
               <span key={index} className={blankClass}>
-                {isCurrent ? '_____' : segment.word}
+                {displayText}
               </span>
             );
           }

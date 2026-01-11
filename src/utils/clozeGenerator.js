@@ -40,17 +40,17 @@ export function generateQuestions(fileData) {
  * Find all word bank matches in a sentence
  * @param {string} sentence - The sentence to search
  * @param {Map} wordBankMap - Map of lowercase words to word bank entries
- * @returns {Array} Array of blank objects
+ * @returns {Array} Array of blank objects (limited to 1-2 per sentence)
  */
 function findBlanksInSentence(sentence, wordBankMap) {
-  const blanks = [];
+  const allBlanks = [];
   const words = tokenizeSentence(sentence);
 
   for (const { word, position } of words) {
     const key = word.toLowerCase();
 
     if (wordBankMap.has(key)) {
-      blanks.push({
+      allBlanks.push({
         wordEntry: wordBankMap.get(key),
         wordInSentence: word,
         position
@@ -58,7 +58,22 @@ function findBlanksInSentence(sentence, wordBankMap) {
     }
   }
 
-  return blanks;
+  // Limit to 1-2 blanks per sentence
+  // Randomly select 1-2 blanks if there are more
+  if (allBlanks.length === 0) {
+    return [];
+  }
+
+  const maxBlanks = Math.min(allBlanks.length, Math.random() < 0.5 ? 1 : 2);
+
+  // Randomly shuffle and select the first maxBlanks
+  shuffleArray(allBlanks);
+  const selectedBlanks = allBlanks.slice(0, maxBlanks);
+
+  // Sort by position to maintain left-to-right order
+  selectedBlanks.sort((a, b) => a.position - b.position);
+
+  return selectedBlanks;
 }
 
 /**
