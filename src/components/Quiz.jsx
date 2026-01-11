@@ -84,9 +84,12 @@ export default function Quiz({ fileData, languageConfig, onReset }) {
 
     setAnswers([...answers, answerRecord]);
 
-    // Reveal sentence in progressive reveal mode
+    // Reveal sentence in progressive reveal mode only after all blanks in the sentence are answered
     if (settings.progressiveReveal) {
-      setRevealedSentences(new Set([...revealedSentences, currentQuestion.sentenceIndex]));
+      const isLastBlankInQuestion = currentBlankIndex === currentQuestion.blanks.length - 1;
+      if (isLastBlankInQuestion) {
+        setRevealedSentences(new Set([...revealedSentences, currentQuestion.sentenceIndex]));
+      }
     }
   };
 

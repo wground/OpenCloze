@@ -1,9 +1,9 @@
 /**
  * wiktionary.js
- * Fetches dictionary definitions from Wiktionary API
+ * Fetches dictionary definitions from Wiktionary using MediaWiki Action API
  */
 
-const WIKTIONARY_API_BASE = 'https://en.wiktionary.org/api/rest_v1/page/definition/';
+const WIKTIONARY_API_BASE = 'https://en.wiktionary.org/w/api.php';
 const TIMEOUT_MS = 5000; // 5 seconds
 
 /**
@@ -21,17 +21,23 @@ const TIMEOUT_MS = 5000; // 5 seconds
  */
 export async function lookupWord(word, wiktionaryCode, languageName) {
   try {
-    const url = `${WIKTIONARY_API_BASE}${encodeURIComponent(word)}`;
+    // Use MediaWiki Action API with CORS support
+    const params = new URLSearchParams({
+      action: 'parse',
+      page: word,
+      prop: 'wikitext',
+      format: 'json',
+      origin: '*' // Enable CORS
+    });
+
+    const url = `${WIKTIONARY_API_BASE}?${params}`;
 
     // Create abort controller for timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
     const response = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        'Accept': 'application/json'
-      }
+      signal: controller.signal
     });
 
     clearTimeout(timeoutId);
@@ -42,8 +48,19 @@ export async function lookupWord(word, wiktionaryCode, languageName) {
 
     const data = await response.json();
 
-    // Extract definitions for the specified language
-    const definitions = extractDefinitions(data, languageName);
+    // Check for API errors
+    if (data.error) {
+      return null;
+    }
+
+    // Extract wikitext
+    const wikitext = data.parse?.wikitext?.['*'];
+    if (!wikitext) {
+      return null;
+    }
+
+    // Parse definitions from wikitext
+    const definitions = parseWikitext(wikitext, languageName);
 
     if (definitions.length === 0) {
       return null;
@@ -64,44 +81,52 @@ export async function lookupWord(word, wiktionaryCode, languageName) {
 }
 
 /**
- * Extract definitions from Wiktionary API response
- * @param {Object} data - API response data
+ * Parse wikitext to extract definitions
+ * @param {string} wikitext - Raw wikitext from API
  * @param {string} languageName - Language name to filter by
  * @returns {Array} Array of {pos, definition} objects
  */
-function extractDefinitions(data, languageName) {
+function parseWikitext(wikitext, languageName) {
   const definitions = [];
 
-  // Wiktionary API returns language sections
-  for (const langKey in data) {
-    const langSection = data[langKey];
+  // Find the language section (e.g., ==German==, ==Latin==)
+  const langRegex = new RegExp(`==${languageName}==([\\s\\S]*?)(?:==\\w+==|$)`, 'i');
+  const langMatch = wikitext.match(langRegex);
 
-    // Check if this is the language we're looking for
-    // The API uses language names as keys (e.g., "German", "Latin")
-    if (langKey.toLowerCase() !== languageName.toLowerCase()) {
+  if (!langMatch) {
+    return definitions;
+  }
+
+  const langSection = langMatch[1];
+
+  // Extract POS sections and their definitions
+  // Look for ===Noun===, ===Verb===, etc.
+  const posRegex = /===([^=]+)===\s*([\s\S]*?)(?====|$)/g;
+  let posMatch;
+
+  while ((posMatch = posRegex.exec(langSection)) !== null) {
+    const pos = posMatch[1].trim();
+    const posContent = posMatch[2];
+
+    // Skip non-POS sections like Etymology, Pronunciation, etc.
+    const ignoredSections = ['etymology', 'pronunciation', 'alternative forms', 'declension', 'conjugation', 'usage notes', 'synonyms', 'antonyms', 'derived terms', 'related terms', 'see also', 'references', 'further reading'];
+    if (ignoredSections.some(s => pos.toLowerCase().includes(s))) {
       continue;
     }
 
-    // Each language section has POS entries
-    if (Array.isArray(langSection)) {
-      for (const posEntry of langSection) {
-        const pos = posEntry.partOfSpeech || 'unknown';
+    // Extract definitions (lines starting with #)
+    const defRegex = /^#\s*([^#\n][^\n]*)/gm;
+    let defMatch;
 
-        // Extract definitions from this POS entry
-        if (Array.isArray(posEntry.definitions)) {
-          for (const defEntry of posEntry.definitions) {
-            if (defEntry.definition) {
-              definitions.push({
-                pos: pos,
-                definition: cleanDefinition(defEntry.definition)
-              });
+    while ((defMatch = defRegex.exec(posContent)) !== null) {
+      const definition = cleanDefinition(defMatch[1]);
 
-              // Limit to 2-3 definitions as per spec
-              if (definitions.length >= 3) {
-                return definitions;
-              }
-            }
-          }
+      if (definition) {
+        definitions.push({ pos, definition });
+
+        // Limit to 3 definitions
+        if (definitions.length >= 3) {
+          return definitions;
         }
       }
     }
