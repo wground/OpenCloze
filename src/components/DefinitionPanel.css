@@ -122,63 +122,31 @@
 }
 
 /* Wiktionary Section */
-.loading {
-  color: var(--text-tertiary);
-  font-style: italic;
-  padding: 1rem 0;
-}
-
-.definitions-list {
+.wiktionary-header {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
-.definition-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.75rem;
-  background-color: var(--bg-light);
-  border-radius: 4px;
-  border-left: 3px solid var(--accent-secondary);
-}
-
-.definition-pos {
-  font-size: 0.85rem;
-  color: var(--accent-primary);
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-.definition-text {
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.no-definitions {
-  padding: 1rem 0;
-}
-
-.no-definitions p {
-  color: var(--text-tertiary);
-  font-style: italic;
-  margin-bottom: 1rem;
-}
-
-.external-link {
-  display: inline-block;
+.external-link-small {
+  font-size: 0.8rem;
   color: var(--accent-primary);
   text-decoration: none;
-  font-size: 0.9rem;
   transition: color 0.2s;
 }
 
-.external-link:hover {
+.external-link-small:hover {
   color: var(--accent-secondary);
   text-decoration: underline;
+}
+
+.wiktionary-iframe {
+  width: 100%;
+  height: 500px;
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  background-color: white;
 }
 
 /* Animations */

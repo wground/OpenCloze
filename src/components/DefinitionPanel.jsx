@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { lookupWord, getGoogleSearchUrl } from '../utils/wiktionary';
+import { useEffect } from 'react';
+import { getWiktionaryUrl } from '../utils/wiktionary';
 import './DefinitionPanel.css';
 
 /**
  * DefinitionPanel Component
- * Displays dictionary definitions in a fixed right-side panel
+ * Displays dictionary definitions in a fixed right-side panel with embedded Wiktionary page
  *
  * @param {string} word - The word to look up
  * @param {Object|null} wordBankEntry - Word bank entry if word is in vocabulary
@@ -12,24 +12,8 @@ import './DefinitionPanel.css';
  * @param {Function} onClose - Callback to close the panel
  */
 export default function DefinitionPanel({ word, wordBankEntry, languageConfig, onClose }) {
-  const [wiktionaryData, setWiktionaryData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Fetch from Wiktionary on mount
-    const fetchDefinition = async () => {
-      setLoading(true);
-      const data = await lookupWord(
-        word,
-        languageConfig.wiktionary,
-        languageConfig.name
-      );
-      setWiktionaryData(data);
-      setLoading(false);
-    };
-
-    fetchDefinition();
-  }, [word, languageConfig]);
+  // Generate Wiktionary URL with language anchor
+  const wiktionaryUrl = getWiktionaryUrl(word, languageConfig.name);
 
   // Handle click outside to close (on overlay)
   const handleOverlayClick = (e) => {
@@ -90,46 +74,23 @@ export default function DefinitionPanel({ word, wordBankEntry, languageConfig, o
 
           {/* Wiktionary Section */}
           <div className="section wiktionary-section">
-            <h3>Dictionary</h3>
-
-            {loading && (
-              <div className="loading">Loading definitions...</div>
-            )}
-
-            {!loading && wiktionaryData && (
-              <>
-                <div className="definitions-list">
-                  {wiktionaryData.definitions.slice(0, 3).map((def, index) => (
-                    <div key={index} className="definition-item">
-                      <span className="definition-pos">{def.pos}</span>
-                      <span className="definition-text">{def.definition}</span>
-                    </div>
-                  ))}
-                </div>
-                <a
-                  href={wiktionaryData.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="external-link"
-                >
-                  View on Wiktionary →
-                </a>
-              </>
-            )}
-
-            {!loading && !wiktionaryData && (
-              <div className="no-definitions">
-                <p>No dictionary definitions found.</p>
-                <a
-                  href={getGoogleSearchUrl(word, languageConfig.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="external-link"
-                >
-                  Search on Web? →
-                </a>
-              </div>
-            )}
+            <div className="wiktionary-header">
+              <h3>Wiktionary</h3>
+              <a
+                href={wiktionaryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="external-link-small"
+              >
+                Open in new tab ↗
+              </a>
+            </div>
+            <iframe
+              src={wiktionaryUrl}
+              className="wiktionary-iframe"
+              title={`Wiktionary definition for ${word}`}
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            />
           </div>
         </div>
       </div>
