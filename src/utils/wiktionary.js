@@ -136,13 +136,25 @@ function parseWikitext(wikitext, languageName) {
 }
 
 /**
- * Clean up a definition string by removing HTML tags and extra whitespace
+ * Clean up a definition string by removing wikitext markup and extra whitespace
  * @param {string} definition - Raw definition string
  * @returns {string} Cleaned definition
  */
 function cleanDefinition(definition) {
   // Remove HTML tags
   let cleaned = definition.replace(/<[^>]*>/g, '');
+
+  // Remove wiki links: [[link|text]] -> text, [[link]] -> link
+  cleaned = cleaned.replace(/\[\[(?:[^\]|]+\|)?([^\]]+)\]\]/g, '$1');
+
+  // Remove template markers: {{template}}
+  cleaned = cleaned.replace(/\{\{[^}]+\}\}/g, '');
+
+  // Remove bold/italic markers
+  cleaned = cleaned.replace(/'{2,}/g, '');
+
+  // Remove reference tags like <ref>...</ref>
+  cleaned = cleaned.replace(/<ref[^>]*>.*?<\/ref>/gi, '');
 
   // Replace multiple whitespace with single space
   cleaned = cleaned.replace(/\s+/g, ' ');

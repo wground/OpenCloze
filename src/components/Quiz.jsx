@@ -149,7 +149,18 @@ export default function Quiz({ fileData, languageConfig, onReset }) {
 
   // Handle reset progress
   const handleResetProgress = () => {
-    setCurrentQuestionIndex(0);
+    // Find the question with the lowest sentenceIndex (first sentence in the reading)
+    let firstQuestionIndex = 0;
+    let lowestSentenceIndex = questions[0]?.sentenceIndex ?? 0;
+
+    for (let i = 1; i < questions.length; i++) {
+      if (questions[i].sentenceIndex < lowestSentenceIndex) {
+        lowestSentenceIndex = questions[i].sentenceIndex;
+        firstQuestionIndex = i;
+      }
+    }
+
+    setCurrentQuestionIndex(firstQuestionIndex);
     setCurrentBlankIndex(0);
     setAnswers([]);
     setRevealedSentences(new Set());

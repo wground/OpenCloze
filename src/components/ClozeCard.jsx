@@ -32,12 +32,12 @@ export default function ClozeCard({
   const currentBlank = blanks[currentBlankIndex];
   const correctAnswer = currentBlank.wordEntry.word;
 
-  // Reset state when blank changes
+  // Reset state when blank or question changes
   useEffect(() => {
     setSelectedOption(null);
     setAnswerState(null);
     setShowNext(false);
-  }, [currentBlankIndex]);
+  }, [currentBlankIndex, question]);
 
   // Keyboard shortcuts
   useEffect(() => {
