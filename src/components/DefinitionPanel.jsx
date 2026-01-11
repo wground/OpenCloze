@@ -74,23 +74,18 @@ export default function DefinitionPanel({ word, wordBankEntry, languageConfig, o
 
           {/* Wiktionary Section */}
           <div className="section wiktionary-section">
-            <div className="wiktionary-header">
-              <h3>Wiktionary</h3>
-              <a
-                href={wiktionaryUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="external-link-small"
-              >
-                Open in new tab ↗
-              </a>
-            </div>
-            <iframe
-              src={wiktionaryUrl}
-              className="wiktionary-iframe"
-              title={`Wiktionary definition for ${word}`}
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-            />
+            <h3>Dictionary</h3>
+            <p className="wiktionary-info">
+              Click below to view the full Wiktionary entry for <strong>{word}</strong> with complete definitions, etymology, usage examples, and more.
+            </p>
+            <a
+              href={wiktionaryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="wiktionary-button"
+            >
+              Open Wiktionary ({languageConfig.name}) →
+            </a>
           </div>
         </div>
       </div>

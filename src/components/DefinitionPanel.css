@@ -122,31 +122,33 @@
 }
 
 /* Wiktionary Section */
-.wiktionary-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
+.wiktionary-info {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
 }
 
-.external-link-small {
-  font-size: 0.8rem;
+.wiktionary-info strong {
   color: var(--accent-primary);
+}
+
+.wiktionary-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-dark);
   text-decoration: none;
-  transition: color 0.2s;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: 2px solid transparent;
 }
 
-.external-link-small:hover {
-  color: var(--accent-secondary);
-  text-decoration: underline;
-}
-
-.wiktionary-iframe {
-  width: 100%;
-  height: 500px;
-  border: 1px solid var(--border-default);
-  border-radius: 4px;
-  background-color: white;
+.wiktionary-button:hover {
+  background-color: var(--accent-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Animations */
