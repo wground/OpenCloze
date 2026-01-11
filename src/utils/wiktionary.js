@@ -90,8 +90,9 @@ function parseWikitext(wikitext, languageName) {
   const definitions = [];
 
   // Find the language section (e.g., ==German==, ==Latin==)
-  const langRegex = new RegExp(`==${languageName}==([\\s\\S]*?)(?:==\\w+==|$)`, 'i');
-  const langMatch = wikitext.match(langRegex);
+  // Try both exact match and partial match for flexibility
+  let langRegex = new RegExp(`==${languageName}==([\\s\\S]*?)(?:^==(?!=${languageName})|$)`, 'im');
+  let langMatch = wikitext.match(langRegex);
 
   if (!langMatch) {
     return definitions;
@@ -101,27 +102,35 @@ function parseWikitext(wikitext, languageName) {
 
   // Extract POS sections and their definitions
   // Look for ===Noun===, ===Verb===, etc.
-  const posRegex = /===([^=]+)===\s*([\s\S]*?)(?====|$)/g;
+  const posRegex = /===\s*([^=\n]+?)\s*===\s*([\s\S]*?)(?=\n===|\n====|$)/g;
   let posMatch;
 
   while ((posMatch = posRegex.exec(langSection)) !== null) {
     const pos = posMatch[1].trim();
     const posContent = posMatch[2];
 
-    // Skip non-POS sections like Etymology, Pronunciation, etc.
-    const ignoredSections = ['etymology', 'pronunciation', 'alternative forms', 'declension', 'conjugation', 'usage notes', 'synonyms', 'antonyms', 'derived terms', 'related terms', 'see also', 'references', 'further reading'];
+    // Skip non-POS sections
+    const ignoredSections = ['etymology', 'pronunciation', 'alternative forms', 'declension', 'conjugation', 'inflection', 'usage notes', 'synonyms', 'antonyms', 'derived terms', 'related terms', 'descendants', 'see also', 'references', 'further reading', 'anagrams'];
     if (ignoredSections.some(s => pos.toLowerCase().includes(s))) {
       continue;
     }
 
-    // Extract definitions (lines starting with #)
-    const defRegex = /^#\s*([^#\n][^\n]*)/gm;
+    // Extract definitions (lines starting with # but not ##)
+    const defRegex = /^#\s+([^#\n*:][^\n]*)/gm;
     let defMatch;
 
     while ((defMatch = defRegex.exec(posContent)) !== null) {
-      const definition = cleanDefinition(defMatch[1]);
+      let definition = defMatch[1];
 
-      if (definition) {
+      // Take only the first sentence of the definition
+      const sentenceEnd = definition.search(/[.!?]\s/);
+      if (sentenceEnd !== -1) {
+        definition = definition.substring(0, sentenceEnd + 1);
+      }
+
+      definition = cleanDefinition(definition);
+
+      if (definition && definition.length > 3) {
         definitions.push({ pos, definition });
 
         // Limit to 3 definitions

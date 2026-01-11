@@ -30,8 +30,8 @@ export function generateQuestions(fileData) {
     }
   }
 
-  // Shuffle questions (but not blanks within questions)
-  shuffleArray(questions);
+  // Don't shuffle - keep questions in reading order for better comprehension
+  // Questions are already in order since we iterate through sentences sequentially
 
   return questions;
 }
