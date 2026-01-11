@@ -27,6 +27,7 @@ export default function ClozeCard({
   const [selectedOption, setSelectedOption] = useState(null);
   const [answerState, setAnswerState] = useState(null); // 'correct' or 'incorrect'
   const [showNext, setShowNext] = useState(false);
+  const [isFading, setIsFading] = useState(false);
 
   const { sentence, blanks } = question;
   const currentBlank = blanks[currentBlankIndex];
@@ -37,6 +38,7 @@ export default function ClozeCard({
     setSelectedOption(null);
     setAnswerState(null);
     setShowNext(false);
+    setIsFading(false);
   }, [currentBlankIndex, question]);
 
   // Keyboard shortcuts
@@ -70,14 +72,20 @@ export default function ClozeCard({
     // Call parent callback
     onAnswer(option);
 
-    // Auto-advance after 1 second, or show Next button if last blank
+    // Auto-advance after showing feedback
     const isLastBlank = currentBlankIndex === blanks.length - 1;
     if (isLastBlank) {
       setShowNext(true);
     } else {
+      // Start fade out after 800ms
+      setTimeout(() => {
+        setIsFading(true);
+      }, 800);
+
+      // Call onNext after fade completes (1200ms total)
       setTimeout(() => {
         onNext();
-      }, 1000);
+      }, 1200);
     }
   };
 
@@ -142,7 +150,7 @@ export default function ClozeCard({
       </div>
 
       <div className="options-container">
-        <div className="options-grid">
+        <div className={`options-grid ${isFading ? 'fading-out' : ''}`}>
           {options.map((option, index) => {
             let state = 'default';
 

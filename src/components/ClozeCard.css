@@ -29,7 +29,7 @@
 
 .clickable-word:hover {
   color: var(--accent-primary);
-  background-color: rgba(201, 162, 39, 0.1);
+  background-color: rgba(179, 27, 27, 0.1);
 }
 
 /* Blanks */
@@ -44,7 +44,7 @@
 
 .blank-current {
   color: var(--accent-primary);
-  background-color: rgba(201, 162, 39, 0.15);
+  background-color: rgba(179, 27, 27, 0.15);
   border-bottom: 2px solid var(--accent-primary);
   animation: pulse 1.5s ease-in-out infinite;
 }
@@ -80,6 +80,29 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.options-grid.fading-out {
+  animation: fadeOut 0.4s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Next Button */
