@@ -280,8 +280,6 @@ opencloze/
 
 ## Design Philosophy
 
-**Dark Academia Aesthetic**: Inspired by classical libraries and scholarly pursuits, featuring warm golds, rich browns, and comfortable serif typography.
-
 **Progressive Disclosure**: Information is revealed gradually to maintain focus and provide a sense of accomplishment.
 
 **Accessibility First**: Keyboard navigation, focus states, and semantic HTML ensure the application is usable by everyone.
