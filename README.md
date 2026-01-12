@@ -293,9 +293,4 @@ MIT License - feel free to use for educational purposes.
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
-
-## Acknowledgments
-
-- Morphological categories inspired by traditional grammar references
-- Dark academia aesthetic inspired by classical educational institutions
-- Wiktionary for providing free dictionary APIs
+I expect to expand language support beyond German and Latin soon!
