@@ -111,6 +111,47 @@ export default function FileUpload({ onFileLoad, languages }) {
     }
   };
 
+  const handleSampleReading = async (filename) => {
+    setError(null);
+
+    try {
+      // Fetch the sample reading file
+      const response = await fetch(`/sample-readings/${filename}`);
+      if (!response.ok) {
+        throw new Error(`Failed to load sample reading: ${response.statusText}`);
+      }
+
+      const text = await response.text();
+
+      // Quick parse to extract language code
+      const langMatch = text.match(/^lang:\s*(\w+)/m);
+      if (!langMatch) {
+        setError('Sample file is missing "lang:" field');
+        return;
+      }
+
+      const langCode = langMatch[1].trim();
+
+      // Validate language is loaded
+      if (!languages.has(langCode)) {
+        setError(`Language "${langCode}" not found.`);
+        return;
+      }
+
+      // Get language config
+      const languageConfig = languages.get(langCode);
+
+      // Parse the reading file
+      const fileData = parseReading(text, languageConfig);
+
+      // Success - call callback
+      onFileLoad(fileData, languageConfig);
+
+    } catch (err) {
+      setError(`Failed to load sample reading: ${err.message}`);
+    }
+  };
+
   return (
     <div className="file-upload-container">
       <div className="file-upload-header">
@@ -145,6 +186,43 @@ export default function FileUpload({ onFileLoad, languages }) {
           {error}
         </div>
       )}
+
+      <div className="sample-readings-section">
+        <h3>Try a Sample Reading</h3>
+        <div className="sample-readings-grid">
+          <div className="sample-reading-card">
+            <div className="sample-reading-header">
+              <span className="sample-language-badge">Latin</span>
+            </div>
+            <h4 className="sample-reading-title">Caesar, De Bello Gallico 1.1–2</h4>
+            <p className="sample-reading-preview">
+              Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae...
+            </p>
+            <button
+              className="sample-reading-button"
+              onClick={() => handleSampleReading('OpenCloze LA Example Reading.md')}
+            >
+              Try this reading
+            </button>
+          </div>
+
+          <div className="sample-reading-card">
+            <div className="sample-reading-header">
+              <span className="sample-language-badge">German</span>
+            </div>
+            <h4 className="sample-reading-title">Kafka, Ein altes Blatt</h4>
+            <p className="sample-reading-preview">
+              Es ist, als wäre viel vernachlässigt worden in der Verteidigung unseres Vaterlandes. Wir haben uns bisher nicht darum gekümmert...
+            </p>
+            <button
+              className="sample-reading-button"
+              onClick={() => handleSampleReading('OpenCloze DE Example Reading.md')}
+            >
+              Try this reading
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div className="upload-info">
         <h3>Available Languages</h3>
