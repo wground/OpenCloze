@@ -115,8 +115,8 @@ export default function FileUpload({ onFileLoad, languages }) {
     setError(null);
 
     try {
-      // Fetch the sample reading file
-      const response = await fetch(`/sample-readings/${filename}`);
+      // Fetch the sample reading file - use BASE_URL for production compatibility
+      const response = await fetch(`${import.meta.env.BASE_URL}sample-readings/${filename}`);
       if (!response.ok) {
         throw new Error(`Failed to load sample reading: ${response.statusText}`);
       }
