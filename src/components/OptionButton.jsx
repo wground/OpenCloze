@@ -5,7 +5,7 @@ import './OptionButton.css';
  * Displays an answer option button with different states
  *
  * @param {string} text - The option text to display
- * @param {string} state - Button state: 'default', 'selected', 'correct', 'incorrect'
+ * @param {string} state - Button state: 'default', 'selected', 'correct', 'incorrect', 'greyed'
  * @param {Function} onClick - Click handler
  * @param {boolean} disabled - Whether the button is disabled
  * @param {number} shortcut - Keyboard shortcut number (1-4)
@@ -20,6 +20,8 @@ export default function OptionButton({ text, state, onClick, disabled, shortcut 
       classes.push('option-incorrect');
     } else if (state === 'selected') {
       classes.push('option-selected');
+    } else if (state === 'greyed') {
+      classes.push('option-greyed');
     }
 
     if (disabled && state === 'default') {

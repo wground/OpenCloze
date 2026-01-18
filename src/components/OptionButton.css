@@ -72,6 +72,21 @@
   cursor: default;
 }
 
+/* State: Greyed (wrong answer) */
+.option-greyed {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background-color: var(--bg-dark);
+  border-color: var(--border-default);
+  color: var(--text-tertiary);
+}
+
+.option-greyed:hover {
+  transform: none;
+  border-color: var(--border-default);
+  background-color: var(--bg-dark);
+}
+
 /* State: Disabled */
 .option-disabled {
   opacity: 0.5;

@@ -24,7 +24,7 @@ export default function ClozeCard({
   onWordClick,
   onNext
 }) {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [incorrectOptions, setIncorrectOptions] = useState(new Set());
   const [answerState, setAnswerState] = useState(null); // 'correct' or 'incorrect'
   const [showNext, setShowNext] = useState(false);
   const [isFading, setIsFading] = useState(false);
@@ -35,7 +35,7 @@ export default function ClozeCard({
 
   // Reset state when blank or question changes
   useEffect(() => {
-    setSelectedOption(null);
+    setIncorrectOptions(new Set());
     setAnswerState(null);
     setShowNext(false);
     setIsFading(false);
@@ -45,7 +45,7 @@ export default function ClozeCard({
   useEffect(() => {
     const handleKeyPress = (e) => {
       // Number keys 1-4 for options
-      if (e.key >= '1' && e.key <= '4' && !selectedOption) {
+      if (e.key >= '1' && e.key <= '4' && answerState !== 'correct') {
         const index = parseInt(e.key) - 1;
         if (index < options.length) {
           handleOptionClick(options[index]);
@@ -60,32 +60,43 @@ export default function ClozeCard({
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [options, selectedOption, showNext, onNext]);
+  }, [options, answerState, showNext, onNext]);
 
   const handleOptionClick = (option) => {
-    if (selectedOption) return; // Already answered
+    // Don't allow clicking if already correct or if this option was already tried and is wrong
+    if (answerState === 'correct' || incorrectOptions.has(option)) return;
 
-    setSelectedOption(option);
     const isCorrect = option === correctAnswer;
-    setAnswerState(isCorrect ? 'correct' : 'incorrect');
 
-    // Call parent callback
-    onAnswer(option);
+    if (isCorrect) {
+      // Correct answer clicked
+      setAnswerState('correct');
 
-    // Auto-advance after showing feedback
-    const isLastBlank = currentBlankIndex === blanks.length - 1;
-    if (isLastBlank) {
-      setShowNext(true);
-    } else {
-      // Start fade out after 800ms
+      // Call parent callback to record the answer
+      onAnswer(option);
+
+      // Start fade out for all options
       setTimeout(() => {
         setIsFading(true);
-      }, 800);
+      }, 400);
 
-      // Call onNext after fade completes (1200ms total)
-      setTimeout(() => {
-        onNext();
-      }, 1200);
+      // Auto-advance after fade
+      const isLastBlank = currentBlankIndex === blanks.length - 1;
+      if (isLastBlank) {
+        // For last blank, show next button after fade
+        setTimeout(() => {
+          setShowNext(true);
+          setIsFading(false);
+        }, 800);
+      } else {
+        // For other blanks, auto-advance after fade
+        setTimeout(() => {
+          onNext();
+        }, 800);
+      }
+    } else {
+      // Incorrect answer clicked - grey it out
+      setIncorrectOptions(prev => new Set([...prev, option]));
     }
   };
 
@@ -153,13 +164,20 @@ export default function ClozeCard({
         <div className={`options-grid ${isFading ? 'fading-out' : ''}`}>
           {options.map((option, index) => {
             let state = 'default';
+            let disabled = false;
 
-            if (selectedOption) {
-              if (option === selectedOption) {
-                state = answerState; // 'correct' or 'incorrect'
-              } else if (option === correctAnswer && answerState === 'incorrect') {
-                state = 'correct'; // Show correct answer
+            // Check if this option was selected as incorrect
+            if (incorrectOptions.has(option)) {
+              state = 'greyed';
+              disabled = true;
+            }
+
+            // Check if correct answer was found
+            if (answerState === 'correct') {
+              if (option === correctAnswer) {
+                state = 'correct';
               }
+              disabled = true;
             }
 
             return (
@@ -168,7 +186,7 @@ export default function ClozeCard({
                 text={option}
                 state={state}
                 onClick={() => handleOptionClick(option)}
-                disabled={selectedOption !== null}
+                disabled={disabled}
                 shortcut={index + 1}
               />
             );
