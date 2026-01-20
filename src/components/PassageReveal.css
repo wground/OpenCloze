@@ -31,6 +31,19 @@
   height: 1em;
 }
 
+/* Clickable words in revealed sentences */
+.passage-reveal .clickable-word {
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.passage-reveal .clickable-word:hover {
+  color: var(--accent-primary);
+  background-color: rgba(179, 27, 27, 0.1);
+}
+
 /* Fade-in animation */
 @keyframes fadeIn {
   from {

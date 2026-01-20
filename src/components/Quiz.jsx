@@ -222,6 +222,7 @@ export default function Quiz({ fileData, languageConfig, onReset }) {
           sentences={fileData.sentences}
           revealedIndices={revealedSentences}
           paragraphBreaks={fileData.paragraphBreaks}
+          onWordClick={handleWordClick}
         />
       )}
 

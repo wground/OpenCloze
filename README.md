@@ -244,38 +244,50 @@ To add a new language:
 ```
 opencloze/
 ├── public/
-│   └── languages/          # Language configuration files
-│       ├── de.md
-│       └── la.md
-├── sample-readings/        # Example reading files
-│   ├── 02-griechische-skulptur.md
-│   └── 04-gallia-divisa.md
+│   ├── languages/                         # Language configuration files
+│   │   ├── de.md                          # German language config
+│   │   └── la.md                          # Latin language config
+│   └── sample-readings/                   # Example reading files
+│       ├── OpenCloze DE Example Reading.md
+│       └── OpenCloze LA Example Reading.md
 ├── src/
-│   ├── components/         # React components
-│   │   ├── ClozeCard.jsx
-│   │   ├── CompletionScreen.jsx
-│   │   ├── DefinitionPanel.jsx
-│   │   ├── FileUpload.jsx
-│   │   ├── OptionButton.jsx
-│   │   ├── PassageReveal.jsx
-│   │   ├── ProgressBar.jsx
-│   │   ├── Quiz.jsx
-│   │   └── Settings.jsx
-│   ├── utils/              # Utility functions
-│   │   ├── clozeGenerator.js
-│   │   ├── distractors.js
-│   │   ├── languageParser.js
-│   │   ├── parser.js
-│   │   ├── storage.js
-│   │   └── wiktionary.js
+│   ├── components/                        # React components
+│   │   ├── ClozeCard.jsx                  # Fill-in-the-blank question card
+│   │   ├── ClozeCard.css
+│   │   ├── CompletionScreen.jsx           # Final score display
+│   │   ├── CompletionScreen.css
+│   │   ├── DefinitionPanel.jsx            # Dictionary sidebar
+│   │   ├── DefinitionPanel.css
+│   │   ├── FileUpload.jsx                 # Drag-and-drop file interface
+│   │   ├── FileUpload.css
+│   │   ├── OptionButton.jsx               # Multiple choice answer button
+│   │   ├── OptionButton.css
+│   │   ├── PassageReveal.jsx              # Progressive reveal display
+│   │   ├── PassageReveal.css
+│   │   ├── ProgressBar.jsx                # Quiz progress indicator
+│   │   ├── ProgressBar.css
+│   │   ├── Quiz.jsx                       # Main quiz orchestrator
+│   │   ├── Quiz.css
+│   │   ├── Settings.jsx                   # Settings and controls
+│   │   └── Settings.css
+│   ├── utils/                             # Utility functions
+│   │   ├── clozeGenerator.js              # Question generation logic
+│   │   ├── distractors.js                 # Distractor selection algorithm
+│   │   ├── languageParser.js              # Language config parser
+│   │   ├── parser.js                      # Reading file parser
+│   │   ├── storage.js                     # localStorage progress tracking
+│   │   └── wiktionary.js                  # Dictionary API integration
 │   ├── styles/
-│   │   └── index.css       # Global styles
-│   ├── App.jsx
-│   └── main.jsx
+│   │   └── index.css                      # Global styles and CSS variables
+│   ├── App.jsx                            # Root component
+│   ├── App.css
+│   └── main.jsx                           # Entry point
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml      # GitHub Actions deployment
-└── vite.config.js
+│       └── deploy.yml                     # GitHub Actions deployment
+├── vite.config.js                         # Vite configuration
+├── package.json
+└── README.md
 ```
 
 ## Design Philosophy
