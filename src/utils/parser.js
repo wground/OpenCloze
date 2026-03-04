@@ -15,8 +15,10 @@ export function parseReading(text, languageConfig) {
   const data = {
     title: '',
     lang: '',
+    mode: 'reading',
     sentences: [],
     paragraphBreaks: [],
+    exerciseSentences: [],
     wordBank: [],
     wordBankMap: new Map()
   };
@@ -34,6 +36,8 @@ export function parseReading(text, languageConfig) {
     } else if (line.startsWith('lang:')) {
       data.lang = line.substring(5).trim();
       readingPassage = true; // After lang field, rest is passage
+    } else if (line.startsWith('mode:')) {
+      data.mode = line.substring(5).trim() || 'reading';
     } else if (readingPassage && line.trim()) {
       passageLines.push(line.trim());
     } else if (readingPassage && !line.trim() && passageLines.length > 0) {
@@ -42,13 +46,18 @@ export function parseReading(text, languageConfig) {
     }
   }
 
-  // Split passage into sentences and track paragraph breaks
-  const { sentences, paragraphBreaks } = splitIntoSentences(
-    passageLines,
-    languageConfig.sentenceDelimiters
-  );
-  data.sentences = sentences;
-  data.paragraphBreaks = paragraphBreaks;
+  if (data.mode === 'reading') {
+    // Split passage into sentences and track paragraph breaks
+    const { sentences, paragraphBreaks } = splitIntoSentences(
+      passageLines,
+      languageConfig.sentenceDelimiters
+    );
+    data.sentences = sentences;
+    data.paragraphBreaks = paragraphBreaks;
+  } else {
+    // vocab or grammar mode: parse as individual exercise sentences
+    data.exerciseSentences = parseExerciseSentences(passageLines);
+  }
 
   // Parse word bank section (second section if exists)
   if (sections.length > 1) {
@@ -63,6 +72,35 @@ export function parseReading(text, languageConfig) {
   }
 
   return data;
+}
+
+/**
+ * Parse exercise sentences for vocab/grammar modes
+ * Each non-empty line is a sentence containing exactly one {word} blank
+ * @param {string[]} lines - Array of passage lines
+ * @returns {Array} Array of {sentence, blankWord, blankPosition} objects
+ */
+function parseExerciseSentences(lines) {
+  const exerciseSentences = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Find the blank marked with {word}
+    const blankMatch = trimmed.match(/\{([^}]+)\}/);
+    if (!blankMatch) continue;
+
+    const blankWord = blankMatch[1];
+    const blankPosition = blankMatch.index;
+
+    // Replace {word} with the actual word to get the natural sentence
+    const sentence = trimmed.replace(`{${blankWord}}`, blankWord);
+
+    exerciseSentences.push({ sentence, blankWord, blankPosition });
+  }
+
+  return exerciseSentences;
 }
 
 /**
@@ -165,16 +203,23 @@ function parseWordBank(section) {
       continue;
     }
 
-    // Parse pipe-delimited fields: word | pos | form | grammar | definition
+    // Parse pipe-delimited fields: word | pos | form | grammar | definition | distractors
     const fields = trimmed.split('|').map(s => s.trim());
 
     if (fields.length >= 5) {
+      // Parse optional 6th column: comma-separated distractors
+      let distractors = [];
+      if (fields.length >= 6 && fields[5]) {
+        distractors = fields[5].split(',').map(s => s.trim()).filter(s => s.length > 0);
+      }
+
       wordBank.push({
         word: fields[0],
         pos: fields[1],
         form: fields[2],
         grammar: fields[3],
-        definition: fields[4]
+        definition: fields[4],
+        distractors
       });
     }
   }

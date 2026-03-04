@@ -93,8 +93,13 @@ export default function FileUpload({ onFileLoad, languages }) {
         return;
       }
 
-      if (fileData.sentences.length === 0) {
-        setError('File contains no passage text');
+      const isExerciseMode = fileData.mode === 'vocab' || fileData.mode === 'grammar';
+      const hasContent = isExerciseMode
+        ? fileData.exerciseSentences.length > 0
+        : fileData.sentences.length > 0;
+
+      if (!hasContent) {
+        setError('File contains no exercise content');
         return;
       }
 
@@ -188,11 +193,14 @@ export default function FileUpload({ onFileLoad, languages }) {
       )}
 
       <div className="sample-readings-section">
-        <h3>Try a Sample Reading</h3>
+        <h3>Try a Sample Exercise</h3>
+
+        <div className="sample-group-label">Readings</div>
         <div className="sample-readings-grid">
           <div className="sample-reading-card">
             <div className="sample-reading-header">
               <span className="sample-language-badge">Latin</span>
+              <span className="sample-mode-badge sample-mode-reading">Reading</span>
             </div>
             <h4 className="sample-reading-title">Caesar, De Bello Gallico 1.1–2</h4>
             <p className="sample-reading-preview">
@@ -209,6 +217,7 @@ export default function FileUpload({ onFileLoad, languages }) {
           <div className="sample-reading-card">
             <div className="sample-reading-header">
               <span className="sample-language-badge">German</span>
+              <span className="sample-mode-badge sample-mode-reading">Reading</span>
             </div>
             <h4 className="sample-reading-title">Kafka, Ein altes Blatt</h4>
             <p className="sample-reading-preview">
@@ -219,6 +228,80 @@ export default function FileUpload({ onFileLoad, languages }) {
               onClick={() => handleSampleReading('OpenCloze DE Example Reading.md')}
             >
               Try this reading
+            </button>
+          </div>
+        </div>
+
+        <div className="sample-group-label">Vocabulary Practice</div>
+        <div className="sample-readings-grid">
+          <div className="sample-reading-card">
+            <div className="sample-reading-header">
+              <span className="sample-language-badge">Latin</span>
+              <span className="sample-mode-badge sample-mode-vocab">Vocab</span>
+            </div>
+            <h4 className="sample-reading-title">Latin Life and Society</h4>
+            <p className="sample-reading-preview">
+              Milites Romani castra in colle posuerunt. Senator longam orationem in foro habuit...
+            </p>
+            <button
+              className="sample-reading-button"
+              onClick={() => handleSampleReading('OpenCloze LA Example Vocab.md')}
+            >
+              Try this exercise
+            </button>
+          </div>
+
+          <div className="sample-reading-card">
+            <div className="sample-reading-header">
+              <span className="sample-language-badge">German</span>
+              <span className="sample-mode-badge sample-mode-vocab">Vocab</span>
+            </div>
+            <h4 className="sample-reading-title">German Daily Life</h4>
+            <p className="sample-reading-preview">
+              Die Katze sitzt auf dem Dach und schaut nach unten. Er liest jeden Abend ein Buch...
+            </p>
+            <button
+              className="sample-reading-button"
+              onClick={() => handleSampleReading('OpenCloze DE Example Vocab.md')}
+            >
+              Try this exercise
+            </button>
+          </div>
+        </div>
+
+        <div className="sample-group-label">Grammar Practice</div>
+        <div className="sample-readings-grid">
+          <div className="sample-reading-card">
+            <div className="sample-reading-header">
+              <span className="sample-language-badge">Latin</span>
+              <span className="sample-mode-badge sample-mode-grammar">Grammar</span>
+            </div>
+            <h4 className="sample-reading-title">Latin Verb & Noun Forms</h4>
+            <p className="sample-reading-preview">
+              Caesar copias in Galliam duxit. Milites castra in colle ponunt. Senatus legem novam de civibus tulit...
+            </p>
+            <button
+              className="sample-reading-button"
+              onClick={() => handleSampleReading('OpenCloze LA Example Grammar.md')}
+            >
+              Try this exercise
+            </button>
+          </div>
+
+          <div className="sample-reading-card">
+            <div className="sample-reading-header">
+              <span className="sample-language-badge">German</span>
+              <span className="sample-mode-badge sample-mode-grammar">Grammar</span>
+            </div>
+            <h4 className="sample-reading-title">German Verb Conjugation</h4>
+            <p className="sample-reading-preview">
+              Er geht jeden Morgen zur Arbeit. Die Kinder spielten gestern den ganzen Tag im Garten...
+            </p>
+            <button
+              className="sample-reading-button"
+              onClick={() => handleSampleReading('OpenCloze DE Example Grammar.md')}
+            >
+              Try this exercise
             </button>
           </div>
         </div>

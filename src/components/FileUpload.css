@@ -137,11 +137,21 @@
   text-align: center;
 }
 
+.sample-group-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: 0.6rem;
+  margin-top: 1.25rem;
+}
+
 .sample-readings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .sample-reading-card {
@@ -161,19 +171,52 @@
 }
 
 .sample-reading-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .sample-language-badge {
   display: inline-block;
   background-color: var(--accent-primary);
   color: white;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+/* Mode badges */
+.sample-mode-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sample-mode-reading {
+  background-color: rgba(139, 125, 107, 0.15);
+  color: #8b7d6b;
+  border: 1px solid rgba(139, 125, 107, 0.35);
+}
+
+.sample-mode-vocab {
+  background-color: rgba(196, 163, 90, 0.15);
+  color: #c4a35a;
+  border: 1px solid rgba(196, 163, 90, 0.35);
+}
+
+.sample-mode-grammar {
+  background-color: rgba(106, 140, 175, 0.15);
+  color: #6a8caf;
+  border: 1px solid rgba(106, 140, 175, 0.35);
 }
 
 .sample-reading-title {

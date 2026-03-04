@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { parseLanguageConfig } from './utils/languageParser';
 import FileUpload from './components/FileUpload';
 import Quiz from './components/Quiz';
+import ExerciseQuiz from './components/ExerciseQuiz';
 import './App.css';
 
 function App() {
@@ -83,6 +84,15 @@ function App() {
 
   // Render quiz if file is loaded
   if (fileData && languageConfig) {
+    if (fileData.mode === 'vocab' || fileData.mode === 'grammar') {
+      return (
+        <ExerciseQuiz
+          fileData={fileData}
+          languageConfig={languageConfig}
+          onReset={handleReset}
+        />
+      );
+    }
     return (
       <Quiz
         fileData={fileData}

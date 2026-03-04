@@ -1,0 +1,216 @@
+/* ExerciseQuiz Component Styles */
+/* Dark academia theme — consistent with Quiz.css and ClozeCard.css */
+
+.exercise-quiz-container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.exercise-loading {
+  width: 100%;
+  max-width: 720px;
+  margin: 3rem auto;
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Header */
+.exercise-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.exercise-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.exercise-title {
+  font-size: 1.25rem;
+  font-weight: normal;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* Mode badge */
+.exercise-mode-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  align-self: flex-start;
+}
+
+.exercise-mode-vocab {
+  background-color: rgba(196, 163, 90, 0.15);
+  color: #c4a35a;
+  border: 1px solid rgba(196, 163, 90, 0.4);
+}
+
+.exercise-mode-grammar {
+  background-color: rgba(106, 140, 175, 0.15);
+  color: #6a8caf;
+  border: 1px solid rgba(106, 140, 175, 0.4);
+}
+
+/* Action buttons in header */
+.exercise-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.exercise-action-btn {
+  background-color: var(--bg-medium);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.exercise-action-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* Exercise card */
+.exercise-card {
+  background-color: var(--bg-medium);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Sentence display */
+.exercise-sentence {
+  font-size: 1.35rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin-bottom: 1.75rem;
+  font-style: italic;
+}
+
+.clickable-word {
+  cursor: pointer;
+  border-bottom: 1px dotted transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.clickable-word:hover {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
+/* The blank */
+.exercise-blank {
+  display: inline-block;
+  font-style: normal;
+  font-weight: bold;
+  border-bottom: 2px solid var(--accent-primary);
+  padding: 0 0.25rem;
+  min-width: 4rem;
+  text-align: center;
+  margin: 0 0.1rem;
+  transition: all 0.3s ease;
+}
+
+.exercise-blank-active {
+  color: var(--text-tertiary);
+}
+
+.exercise-blank-correct {
+  color: var(--correct-text);
+  border-bottom-color: var(--correct-text);
+}
+
+/* Definition reveal */
+.exercise-definition-reveal {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-default);
+  border-left: 3px solid var(--accent-primary);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  transition: opacity 0.4s ease;
+}
+
+.exercise-def-word {
+  font-weight: bold;
+  color: var(--accent-primary);
+  font-size: 1rem;
+}
+
+.exercise-def-form {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.exercise-def-meaning {
+  color: var(--text-secondary);
+}
+
+/* Options grid */
+.exercise-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  transition: opacity 0.4s ease;
+}
+
+/* Fade animation */
+.fading-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .exercise-quiz-container {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .exercise-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .exercise-header-actions {
+    align-self: flex-end;
+  }
+
+  .exercise-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .exercise-sentence {
+    font-size: 1.15rem;
+  }
+
+  .exercise-options {
+    grid-template-columns: 1fr;
+  }
+}
