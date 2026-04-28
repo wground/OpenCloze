@@ -24,6 +24,7 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
   const [answerState, setAnswerState] = useState(null); // 'correct' | null
   const [showDefinition, setShowDefinition] = useState(false);
   const [isFading, setIsFading] = useState(false);
+  const [showNext, setShowNext] = useState(false);
   const [showCompletion, setShowCompletion] = useState(false);
   const [selectedWord, setSelectedWord] = useState(null);
   const [fileId, setFileId] = useState('');
@@ -61,6 +62,7 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
     setIncorrectOptions(new Set());
     setShowDefinition(false);
     setIsFading(false);
+    setShowNext(false);
 
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(prev => prev + 1);
@@ -84,18 +86,24 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
         isCorrect: true
       }]);
 
-      // Show definition briefly, then advance
       setShowDefinition(true);
-      setTimeout(() => setIsFading(true), 1200);
-      setTimeout(() => handleNext(), 1700);
+      setTimeout(() => setIsFading(true), 400);
+      setTimeout(() => {
+        setShowNext(true);
+        setIsFading(false);
+      }, 800);
     } else {
       setIncorrectOptions(prev => new Set([...prev, option]));
     }
   };
 
-  // Keyboard shortcuts: 1-4 for options
+  // Keyboard shortcuts: 1-4 for options, Enter for next
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (e.key === 'Enter' && showNext) {
+        handleNext();
+        return;
+      }
       if (answerState === 'correct') return;
       if (e.key >= '1' && e.key <= '4') {
         const index = parseInt(e.key) - 1;
@@ -106,7 +114,7 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [answerState, currentIndex, questions, incorrectOptions]);
+  }, [answerState, showNext, currentIndex, questions, incorrectOptions, handleNext]);
 
   const handleWordClick = (word) => {
     const cleaned = word.replace(/[.,!?;:"""'']/g, '');
@@ -123,6 +131,7 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
     setAnswerState(null);
     setShowDefinition(false);
     setIsFading(false);
+    setShowNext(false);
     setShowCompletion(false);
     if (fileId) clearProgress(fileId);
   };
@@ -228,6 +237,7 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
         )}
 
         {/* Answer options */}
+        <div className="exercise-options-container">
         <div className={`exercise-options ${isFading ? 'fading-out' : ''}`}>
           {options.map((option, index) => {
             let state = 'default';
@@ -254,6 +264,13 @@ export default function ExerciseQuiz({ fileData, languageConfig, onReset }) {
               />
             );
           })}
+        </div>
+
+        {showNext && (
+          <button className="exercise-next-button" onClick={handleNext}>
+            Next Question →
+          </button>
+        )}
         </div>
       </div>
 
